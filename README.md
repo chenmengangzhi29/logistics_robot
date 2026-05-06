@@ -39,23 +39,23 @@ logistics_robot_ws/
 
 | 序号 | 节点名称                        | 核心职责                             | 输入                                              | 输出                                                                            | 技术栈                       |
 | :--- | :----------------------------- | :---------------------------------- | :------------------------------------------------ | :------------------------------------------------------------------------------ | :-------------------------- |
-| 1    | camera_driver_node             | 相机驱动、图像采集、相机参数发布       | 硬件触发信号                                       | /camera/image_raw<br> /camera/camera_info<br> /camera/depth/image_raw(深度相机)  | C++                         |
-| 2    | image_preprocessing_node       | 图像去噪、畸变校正、ROI裁剪、深度对齐  | /camera/image_raw<br> /camera/camera_info         | /camera/image_processed<br> /camera/depth/aligned                                | C++(OpenCV)                 |
-| 3    | detection_pose_estimation_node | 目标检测、实例分割、6D位姿解算         | /camera/image_processed<br> /camera/depth/aligned | /detection/target_bbox<br> /detection/target_pose_cam<br> /detection/target_mask | C++(OpenCV + YOLO/TensorRT) |
-| 4    | handeye_transform_node         | 手眼坐标转换、目标位姿从相机系->机器人基系 | /detection/target_pose_cam /tf_static(手眼标定结果) | /grasp/target_pose_base | C++(tf2) |
-| 5    | grasp_planning_node            | 抓取姿态生成、碰撞预检查、多抓取点排序  | /grasp/target_pose_base<br> /robot/state              | /grasp/selected_pose<br> /grasp/approach_vector | C++(Movelt Task Constructor) |
-| 6    | motion_planning_node           | 运动轨迹规划、碰撞检测、轨迹平滑、速度规划 | /grasp/selected_pose<br> /robot/state<br> /scene/collision_objects | /motion/trajectory<br> /motion/plan_status | C++(Movelt2 + OMPL) |
-| 7    | robot_control_node             | 机器人运动控制、轨迹跟踪、状态反馈         | /motion/trajectory<br> /robot/joint_states                        | /robot/joint_command<br> /robot/state | C++(ros2_control) |
-| 8    | end_effector_node              | 末端执行器驱动、夹爪开合控制、力/位置反馈   | /gripper/command<br> /gripper/force_sensor                        | /gripper/state<br> /gripper/position | C++(自定义 /robotiq 驱动) | 
-| 9    | grasp_verification_node        | 抓取成功校验、物体在位检测、力传感器验证    | /camera/depth/aligned<br> /gripper/force_sensor<br> /gripper/state | /grasp/verification_result | C++(OpenCV + PCL) |
-| 10   | global_state_machine_node      | 全局任务调度、状态机管理、异常处理、流程控制 | 所有节点的状态话题                                                   | /task/state<br> /task/command<br> 所有节点的触发服务 | C++(BehaviorTree.CPP/SMACH) |
+| 1    | camera_<br>driver_<br>node             | 相机驱动、<br>图像采集、<br>相机参数发布       | 硬件触发信号                                       | /camera/image_raw<br> /camera/camera_info<br> /camera/depth/image_raw  | C++                         |
+| 2    | image_<br>preprocessing_<br>node       | 图像去噪、<br>畸变校正、<br>ROI裁剪、<br>深度对齐  | /camera/image_raw<br> /camera/camera_info         | /camera/image_processed<br> /camera/depth/aligned                                | C++<br>(OpenCV)                 |
+| 3    | detection_<br>pose_<br>estimation_<wbr>node | 目标检测、<br>实例分割、<br>6D位姿解算         | /camera/image_processed<br> /camera/depth/aligned | /detection/target_bbox<br> /detection/target_pose_cam<br> /detection/target_mask | C++<br>(OpenCV <br>+YOLO/TensorRT) |
+| 4    | handeye_<br>transform_<br>node         | 手眼坐标转换、<br>目标位姿从相机系->机器人基系 | /detection/target_pose_cam /tf_static(手眼标定结果) | /grasp/target_pose_base | C++<br>(tf2) |
+| 5    | grasp_<br>planning_<br>node            | 抓取姿态生成、<br>碰撞预检查、<br>多抓取点排序  | /grasp/target_pose_base<br> /robot/state              | /grasp/selected_pose<br> /grasp/approach_vector | C++<br>(Movelt <br>Task <br>Constructor) |
+| 6    | motion_<br>planning_<br>node           | 运动轨迹规划、<br>碰撞检测、<br>轨迹平滑、<br>速度规划 | /grasp/selected_pose<br> /robot/state<br> /scene/collision_objects | /motion/trajectory<br> /motion/plan_status | C++<br>(Movelt2 <br>+ OMPL) |
+| 7    | robot_<br>control_<br>node             | 机器人运动控制、<br>轨迹跟踪、<br>状态反馈         | /motion/trajectory<br> /robot/joint_states                        | /robot/joint_command<br> /robot/state | C++<br>(ros2_control) |
+| 8    | end_<br>effector_<br>node              | 末端执行器驱动、<br>夹爪开合控制、<br>力/位置反馈   | /gripper/command<br> /gripper/force_sensor                        | /gripper/state<br> /gripper/position | C++<br>(自定义 <br>/robotiq 驱动) | 
+| 9    | grasp_<br>verification_<br>node        | 抓取成功校验、<br>物体在位检测、<br>力传感器验证    | /camera/depth/aligned<br> /gripper/force_sensor<br> /gripper/state | /grasp/verification_result | C++<br>(OpenCV <br>+ PCL) |
+| 10   | global_<br>state_<br>machine_<br>node      | 全局任务调度、<br>状态机管理、<br>异常处理、<br>流程控制 | 所有节点的状态话题                                                   | /task/state<br> /task/command<br> 所有节点的触发服务 | C++<br>(BehaviorTree.CPP<br>/SMACH) |
 
 # 全链路数据流设计
 
-1.视觉流：相机→预处理→检测→手眼转换→目标位姿（机器人基坐标系）
-2.运动流：目标位姿→抓取规划→运动规划→轨迹跟踪→机器人执行
-3.控制流：全局状态机统一调度，根据各节点状态触发下一步操作
-4.反馈流：抓取校验结果→状态机→决定重试 / 结束 / 异常处理
+1.视觉流：相机→预处理→检测→手眼转换→目标位姿（机器人基坐标系）<br>
+2.运动流：目标位姿→抓取规划→运动规划→轨迹跟踪→机器人执行 <br>
+3.控制流：全局状态机统一调度，根据各节点状态触发下一步操作 <br>
+4.反馈流：抓取校验结果→状态机→决定重试 / 结束 / 异常处理 <br>
 5.TF 流：所有坐标系通过 TF2 树统一管理，保证位姿转换精度
 
 # TF树设计
@@ -86,7 +86,7 @@ graph TD
 ```
 
 TF 树关键说明
-静态 TF：手眼标定结果（camera_link→tool0或camera_link→world）通过tf_static发布，永久不变
-动态 TF：机器人关节 TF 由robot_state_publisher发布，目标坐标系target_link由detection_pose_estimation_node动态发布
-坐标系约定：严格遵循 REP 103（米、弧度、右手系），REP 105（移动机器人坐标系）
+静态 TF：手眼标定结果（camera_link→tool0或camera_link→world）通过tf_static发布，永久不变 <br>
+动态 TF：机器人关节 TF 由robot_state_publisher发布，目标坐标系target_link由detection_pose_estimation_node动态发布 <br>
+坐标系约定：严格遵循 REP 103（米、弧度、右手系），REP 105（移动机器人坐标系） <br>
 TF 发布频率：机器人关节 TF≥100Hz，目标坐标系 TF≥30Hz
