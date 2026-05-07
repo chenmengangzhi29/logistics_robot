@@ -39,18 +39,18 @@ logistics_robot_ws/
 
 表 1：节点职责与技术栈
 
-| 序号 | 节点名称 | 核心职责 | 技术栈 |
-| :--: | :-- | :-- | :-- |
-| 1 | camera_driver_node | 相机驱动、图像采集、相机参数发布 | C++ |
-| 2 | image_preprocessing_node | 图像去噪、畸变校正、ROI 裁剪、深度对齐 | C++ (OpenCV) |
-| 3 | detection_pose_estimation_node | 目标检测、实例分割、6D 位姿解算 | C++ (OpenCV + YOLO/TensorRT) |
-| 4 | handeye_transform_node | 手眼坐标转换、目标位姿从相机系到机器人基系 | C++ (tf2) |
-| 5 | grasp_planning_node | 抓取姿态生成、碰撞预检查、多抓取点排序 | C++ (MoveIt Task Constructor) |
-| 6 | motion_planning_node | 运动轨迹规划、碰撞检测、轨迹平滑、速度规划 | C++ (MoveIt2 + OMPL) |
-| 7 | robot_control_node | 机器人运动控制、轨迹跟踪、状态反馈 | C++ (ros2_control) |
-| 8 | end_effector_node | 末端执行器驱动、夹爪开合控制、力/位置反馈 | C++ (自定义/robotiq 驱动) |
-| 9 | grasp_verification_node | 抓取成功校验、物体在位检测、力传感器验证 | C++ (OpenCV + PCL) |
-| 10 | global_state_machine_node | 全局任务调度、状态机管理、异常处理、流程控制 | C++ (BehaviorTree.CPP/SMACH) |
+| 序号 | 节点名称 | 核心职责 | 技术栈 | 主目录 |
+| :--: | :-- | :-- | :-- | :-- |
+| 1 | camera_driver_node | 相机驱动、图像采集、相机参数发布 | C++ | robot_hardware_hal |
+| 2 | image_preprocessing_node | 图像去噪、畸变校正、ROI 裁剪、深度对齐 | C++ (OpenCV) | robot_perception | 
+| 3 | detection_pose_estimation_node | 目标检测、实例分割、6D 位姿解算 | C++ (OpenCV + YOLO/TensorRT) | robot_perception |
+| 4 | handeye_transform_node | 手眼坐标转换、目标位姿从相机系到机器人基系 | C++ (tf2) | robot_base |
+| 5 | grasp_planning_node | 抓取姿态生成、碰撞预检查、多抓取点排序 | C++ (MoveIt Task Constructor) | robot_control<br>planning/ |
+| 6 | motion_planning_node | 运动轨迹规划、碰撞检测、轨迹平滑、速度规划 | C++ (MoveIt2 + OMPL) | robot_control<br>planning/ |
+| 7 | robot_control_node | 机器人运动控制、轨迹跟踪、状态反馈 | C++ (ros2_control) | robot_control<br>controllers/ |
+| 8 | end_effector_node | 末端执行器驱动、夹爪开合控制、力/位置反馈 | C++ (自定义/robotiq 驱动) | robot_execution |
+| 9 | grasp_verification_node | 抓取成功校验、物体在位检测、力传感器验证 | C++ (OpenCV + PCL) | robot_perception |
+| 10 | global_state_machine_node | 全局任务调度、状态机管理、异常处理、流程控制 | C++ (BehaviorTree.CPP/SMACH) | robot_decision |
 
 表 2：节点输入与输出
 
