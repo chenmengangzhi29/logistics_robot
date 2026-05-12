@@ -35,6 +35,14 @@ logistics_robot_ws/
 └── README.md
 ~~~
 
+# 启动配置
+~~~
+# 仿真模式:
+ros2 launch robot_bringup system.launch.py backend:=sim use_sim_time:=true
+# 实机模式:
+ros2 launch robot_bringup system.launch.py backend:=real use_sim_time:=false
+~~~
+
 # 节点职责拆分
 
 表 1：节点职责与技术栈
