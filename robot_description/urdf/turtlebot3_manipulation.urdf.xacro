@@ -8,22 +8,22 @@
   <xacro:arg name="fake_sensor_commands" default="false" />
 
   <!-- Import materials macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/gazebo/materials.xacro" />
+  <xacro:include filename="$(find robot_simulation)/gazebo/materials.xacro" />
 
   <!-- Include TurtleBot3 Waffle Pi urdf macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/urdf/turtlebot3_waffle_pi.urdf.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/turtlebot3_waffle_pi.urdf.xacro" />
 
   <!-- Include TurtleBot3 Waffle Pi gazebo macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/gazebo/turtlebot3_waffle_pi.gazebo.xacro" />
+  <xacro:include filename="$(find robot_simulation)/gazebo/turtlebot3_waffle_pi.gazebo.xacro" />
 
   <!-- Include OpenManipulator-X urdf macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/urdf/open_manipulator_x.urdf.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/open_manipulator_x.urdf.xacro" />
 
   <!-- Include OpenManipulator-X gazebo macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/gazebo/open_manipulator_x.gazebo.xacro" />
+  <xacro:include filename="$(find robot_simulation)/gazebo/open_manipulator_x.gazebo.xacro" />
 
   <!-- Include TurtleBot3 Manipulation ros2 control macro -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/ros2_control/turtlebot3_manipulation_system.ros2_control.xacro" />
+  <xacro:include filename="$(find robot_description)/ros2_control/turtlebot3_manipulation_system.ros2_control.xacro" />
 
   <xacro:turtlebot3_waffle_pi prefix="$(arg prefix)" />
   <xacro:turtlebot3_waffle_pi_gazebo prefix="$(arg prefix)" />
@@ -45,7 +45,7 @@
 
   <gazebo>
     <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-      <parameters>$(find turtlebot3_manipulation_gazebo)/config/gazebo_controller_manager.yaml</parameters>
+      <parameters>$(find robot_simulation)/config/gazebo_controller_manager.yaml</parameters>
     </plugin>
   </gazebo>
 

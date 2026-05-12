@@ -10,7 +10,7 @@ https://github.com/ROBOTIS-GIT/turtlebot3/blob/kinetic-devel/turtlebot3_descript
 
   <xacro:property
     name="meshes_file_direction"
-    value="package://turtlebot3_manipulation_gazebo/meshes/turtlebot3_waffle_pi"/>
+    value="package://robot_description/meshes/turtlebot3_waffle_pi"/>
 
   <link name="${prefix}base_footprint"/>
 

@@ -1328,7 +1328,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker0/meshes/Marker0.dae</uri>
+              <uri>model://robot_simulation/marker0/meshes/Marker0.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1345,7 +1345,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker1/meshes/Marker1.dae</uri>
+              <uri>model://robot_simulation/marker1/meshes/Marker1.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1362,7 +1362,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker2/meshes/Marker2.dae</uri>
+              <uri>model://robot_simulation/marker2/meshes/Marker2.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1379,7 +1379,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker3/meshes/Marker3.dae</uri>
+              <uri>model://robot_simulation/marker3/meshes/Marker3.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1396,7 +1396,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker4/meshes/Marker4.dae</uri>
+              <uri>model://robot_simulation/marker4/meshes/Marker4.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1413,7 +1413,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker7/meshes/Marker7.dae</uri>
+              <uri>model://robot_simulation/marker7/meshes/Marker7.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1430,7 +1430,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker6/meshes/Marker6.dae</uri>
+              <uri>model://robot_simulation/marker6/meshes/Marker6.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1447,7 +1447,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://turtlebot3_home_service_challenge/marker5/meshes/Marker5.dae</uri>
+              <uri>model://robot_simulation/marker5/meshes/Marker5.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
