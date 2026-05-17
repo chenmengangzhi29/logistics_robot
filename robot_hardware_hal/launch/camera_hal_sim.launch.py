@@ -4,6 +4,7 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     use_sim = LaunchConfiguration('use_sim')
     sim_image_topic = LaunchConfiguration('sim_image_topic')
@@ -18,7 +19,7 @@ def generate_launch_description():
         DeclareLaunchArgument('sim_camera_info_topic', default_value='/camera_info'),
         DeclareLaunchArgument('out_image_topic', default_value='/camera/image_raw'),
         DeclareLaunchArgument('out_camera_info_topic', default_value='/camera/camera_info'),
-        DeclareLaunchArgumnet('force_frame_id', default_value=''),
+        DeclareLaunchArgument('force_frame_id', default_value=''),
 
         Node(
             package='robot_hardware_hal',

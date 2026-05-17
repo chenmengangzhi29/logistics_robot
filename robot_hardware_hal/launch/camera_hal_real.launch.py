@@ -4,6 +4,7 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     use_real = LaunchConfiguration('use_real')
     real_image_topic = LaunchConfiguration('real_image_topic')
@@ -18,10 +19,8 @@ def generate_launch_description():
         DeclareLaunchArgument('real_camera_info_topic', default_value='/camera/color/camera_info'),
         DeclareLaunchArgument('out_image_topic', default_value='/camera/image_raw'),
         DeclareLaunchArgument('out_camera_info_topic', default_value='/camera/camera_info'),
-        DeclareLaunchArgumnet('force_frame_id', default_value=''),
-
+        DeclareLaunchArgument('force_frame_id', default_value=''),
         # 增加相机驱动launch启动
-
         Node(
             package='robot_hardware_hal',
             executable='camera_hal_real_node',
