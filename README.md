@@ -38,9 +38,27 @@ logistics_robot_ws/
 # 启动配置
 ~~~
 # 仿真模式:
-ros2 launch robot_bringup system.launch.py backend:=sim use_sim_time:=true
+ros2 launch robot_bringup system_sim.launch.py
 # 实机模式:
 ros2 launch robot_bringup system.launch.py backend:=real use_sim_time:=false
+# docker容器:
+docker build -t logistics_robot:humble -f docker/Dockerfile   \
+    --build-arg UBUNTU_MIRROR=https://mirrors.tuna.tsinghua.edu.cn/ubuntu   \
+    --build-arg UBUNTU_SECURITY_MIRROR=https://mirrors.tuna.tsinghua.edu.cn/ubuntu   \
+    --build-arg ROS_MIRROR=https://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu   \
+    --build-arg ROSDEP_BASE_URL=https://mirrors.tuna.tsinghua.edu.cn/github-raw/ros/rosdistro/master   \
+    --build-arg ROSDISTRO_INDEX_URL=https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml   \
+    .
+
+xhost +local:docker
+
+docker run --rm -it \
+  --name logistics_robot_dev \
+  --net=host \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ~/logistics_robot_ws:/root/logistics_robot_ws \
+  logistics_robot:humble
 ~~~
 
 # 节点职责拆分
