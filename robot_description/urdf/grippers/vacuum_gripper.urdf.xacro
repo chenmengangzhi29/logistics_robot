@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vacuum_gripper">
+    <xacro:macro name="vacuum_gripper" params="prefix parent">
+        <link name="${prefix}vacuum_base_link">
+            <visual>
+                <origin xyz="0 0 0.025"/>
+                <geometry><cylinder radius="0.03" length="0.05"/></geometry>
+                <material name="suction_grey"><color rgba="0.3 0.3 0.3 1"/></material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.025"/>
+                <geometry><cylinder radius="0.03" length="0.05"/></geometry>
+            </collision>
+            <inertial>
+                <mass value="0.05"/>
+                <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}vacuum_mount_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${prefix}vacuum_base_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+
+        <!-- TCP: contact surface of suction cup, used by MoveIt as end-effector frame -->
+        <link name="${prefix}vacuum_tcp"/>
+        <joint name="${prefix}vacuum_tcp_joint" type="fixed">
+            <parent link="${prefix}vacuum_base_link"/>
+            <child link="${prefix}vacuum_tcp"/>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+</robot>

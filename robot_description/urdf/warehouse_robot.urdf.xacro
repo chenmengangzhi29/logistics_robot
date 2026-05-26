@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="warehouse_robot">
+    <xacro:include filename="$(find robot_description)/urdf/warehouse_agv/warehouse_agv.urdf.xacro"/>
+    <xacro:include filename="$(find robot_description)/urdf/ur5/ur5.urdf.xacro"/>
+    <xacro:include filename="$(find robot_description)/urdf/grippers/vacuum_gripper.urdf.xacro"/>
+
+    <!-- Mobile base -->
+    <xacro:warehouse_agv_robot prefix=""/>
+
+    <!-- UR5 mounted on arm_mount_link of AGV. z-offset already in arm_mount_joint. -->
+    <xacro:ur5_robot prefix="ur5_" parent="arm_mount_link"/>
+
+    <!-- Vacuum gripper attached to UR5 tool0 -->
+    <xacro:vacuum_gripper prefix="" parent="ur5_tool0"/>
+
+    <!-- Camera (Eye-to-Hand) fixed on AGV body, looking forward+down -->
+    <link name="camera_link">
+        <visual>
+            <geometry><box size="0.04 0.10 0.03"/></geometry>
+            <material name="cam_blue"><color rgba="0.1 0.3 0.8 1"/></material>
+        </visual>
+        <inertial><mass value="0.05"/>
+            <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+    </link>
+    <joint name="camera_mount_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0.30 0 0.30" rpy="0 0.5236 0"/>    <!-- pitched 30° down -->
+    </joint>
+
+    <!-- Optical frame: REP-103 convention (x right, y down, z forward) -->
+    <link name="camera_color_optical_frame"/>
+    <joint name="camera_color_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_color_optical_frame"/>
+        <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+</robot> 
