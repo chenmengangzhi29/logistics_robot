@@ -3,6 +3,8 @@
     <xacro:include filename="$(find robot_description)/urdf/warehouse_agv/warehouse_agv.urdf.xacro"/>
     <xacro:include filename="$(find robot_description)/urdf/ur5/ur5.urdf.xacro"/>
     <xacro:include filename="$(find robot_description)/urdf/grippers/vacuum_gripper.urdf.xacro"/>
+    <xacro:include filename="$(find robot_simulation)/gazebo/warehouse_robot.gazebo.xacro"/>
+
 
     <!-- Mobile base -->
     <xacro:warehouse_agv_robot prefix=""/>
