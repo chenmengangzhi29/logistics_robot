@@ -1,11 +1,13 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import Command, FindExecutable
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 
 def generate_launch_description():
     desc_share = get_package_share_directory('robot_description')
@@ -24,20 +26,27 @@ def generate_launch_description():
         launch_arguments={'world': world, 'verbose': 'true'}.items()
     )
 
-    rsp = Node(package = 'robot_state_publisher', executable='robot_state_publisher',
+    rsp = Node(package='robot_state_publisher', executable='robot_state_publisher',
                parameters=[{'robot_description': robot_description,
                             'use_sim_time': True}])
 
-    joint_state_publisher_gui = Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        parameters=[{'use_sim_time': True}]
-    )
-
     spawn = Node(package='gazebo_ros', executable='spawn_entity.py',
-                arguments=['-entity', 'warehouse_robot',
-                           '-topic', 'robot_description',
-                           '-x', '0', '-y', '0', '-z', '0.1'],
-                output='screen')
+                 arguments=['-entity', 'warehouse_robot',
+                            '-topic', 'robot_description',
+                            '-x', '0', '-y', '0', '-z', '0.1'],
+                 output='screen')
 
-    return LaunchDescription([gazebo, rsp, joint_state_publisher_gui, spawn])
+    spawn_jsb = Node(package='controller_manager', executable='spawner',
+                     arguments=['joint_state_broadcaster'], parameters=[{'use_sim_time': True}])
+    spawn_ur5 = Node(package='controller_manager', executable='spawner',
+                     arguments=['ur5_arm_controller'], parameters=[{'use_sim_time': True}])
+    spawn_diff = Node(package='controller_manager', executable='spawner',
+                      arguments=['diff_drive_controller'], parameters=[{'use_sim_time': True}])
+
+    return LaunchDescription([
+        gazebo, rsp, spawn,
+        RegisterEventHandler(OnProcessExit(target_action=spawn,
+            on_exit=[spawn_jsb])),
+        RegisterEventHandler(OnProcessExit(target_action=spawn_jsb,
+            on_exit=[spawn_ur5, spawn_diff])),
+    ])
