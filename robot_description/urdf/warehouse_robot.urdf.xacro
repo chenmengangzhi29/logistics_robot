@@ -4,6 +4,8 @@
     <xacro:include filename="$(find robot_description)/urdf/ur5/ur5.urdf.xacro"/>
     <xacro:include filename="$(find robot_description)/urdf/grippers/vacuum_gripper.urdf.xacro"/>
     <xacro:include filename="$(find robot_simulation)/gazebo/warehouse_robot.gazebo.xacro"/>
+    <xacro:include filename="$(find robot_description)/ros2_control/ur5_sim.ros2_control.xacro"/>
+    <xacro:include filename="$(find robot_description)/ros2_control/agv_sim.ros2_control.xacro"/>
 
 
     <!-- Mobile base -->
@@ -27,14 +29,23 @@
     <joint name="camera_mount_joint" type="fixed">
         <parent link="base_link"/>
         <child link="camera_link"/>
-        <origin xyz="0.30 0 0.30" rpy="0 0.5236 0"/>    <!-- pitched 30° down -->
+        <origin xyz="0.30 0 0.30" rpy="0 0.5236 0"/>    <!-- pitched 30 deg down -->
     </joint>
 
-    <!-- Optical frame: REP-103 convention (x right, y down, z forward) -->
+    <!-- Optical frame - REP-103 convention (x right, y down, z forward) -->
     <link name="camera_color_optical_frame"/>
     <joint name="camera_color_optical_joint" type="fixed">
         <parent link="camera_link"/>
         <child link="camera_color_optical_frame"/>
         <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
     </joint>
+
+    <xacro:ur5_ros2_control_sim prefix="ur5_"/>
+    <xacro:agv_ros2_control_sim prefix=""/>
+
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <parameters>$(find robot_simulation)/config/warehouse_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
 </robot> 
