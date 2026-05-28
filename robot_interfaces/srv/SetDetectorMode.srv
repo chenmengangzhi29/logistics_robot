@@ -1,0 +1,6 @@
+uint8 MODE_ARUCO=0
+uint8 MODE_YOLO_ZMQ=1
+uint8 mode
+---
+bool success
+string current_backend

@@ -1,0 +1,18 @@
+# Goal
+geometry_msgs/PoseStamped pick_pose
+geometry_msgs/PoseStamped place_pose
+string gripper_id
+---
+# Result
+bool success
+int32 error_code
+string error_message
+---
+# Feedback
+uint8 STAGE_APPROACH=0
+uint8 STAGE_GRASP=1
+uint8 STAGE_RETREAT=2
+uint8 STAGE_MOVE=3
+uint8 STAGE_PLACE=4
+uint8 stage
+float32 progress
