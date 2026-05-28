@@ -1,0 +1,13 @@
+std_msgs/Header header
+uint8 STATE_IDLE=0
+uint8 STATE_NAV=1
+uint8 STATE_DETECT=2
+uint8 STATE_PICK=3
+uint8 STATE_PLACE=4
+uint8 STATE_DONE=5
+uint8 STATE_ERROR=255
+uint8 state
+string current_task
+int32 error_code
+geometry_msgs/Pose target_pose
+float32 progress
