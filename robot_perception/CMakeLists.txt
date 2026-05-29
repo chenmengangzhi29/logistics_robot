@@ -17,10 +17,11 @@ find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(image_transport REQUIRED)
+find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
-# find_package(robot_interfaces REQUIRED)
+find_package(robot_interfaces REQUIRED)
 
 include_directories(include)
 
@@ -50,6 +51,19 @@ install(TARGETS
   detection_pose_estimation_node_legacy
   DESTINATION lib/${PROJECT_NAME}
 )
+
+add_library(aruco_detector SHARED src/aruco_detector.cpp)
+ament_target_dependencies(aruco_detector
+  tf2 rclcpp sensor_msgs robot_interfaces OpenCV)
+target_include_directories(aruco_detector PUBLIC include)
+install(TARGETS aruco_detector DESTINATION lib)
+install(DIRECTORY include/ DESTINATION include)
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_aruco_detector test/test_aruco_detector.cpp)
+  target_link_libraries(test_aruco_detector aruco_detector)
+endif()
 
 # if(BUILD_TESTING)
 #   find_package(ament_lint_auto REQUIRED)
