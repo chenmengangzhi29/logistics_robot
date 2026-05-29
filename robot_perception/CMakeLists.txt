@@ -23,41 +23,27 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(robot_interfaces REQUIRED)
 
-include_directories(include)
-
-# Legacy node kept for archival; not wired into launch
-add_executable(detection_pose_estimation_node_legacy
-    src/legacy/detection_pose_estimation_node_legacy.cpp
-)
-
-ament_target_dependencies(detection_pose_estimation_node_legacy
- rclcpp
- sensor_msgs
- geometry_msgs
- cv_bridge
-)
-
-target_include_directories(detection_pose_estimation_node_legacy
-    PUBLIC
-    ${ZMQ_INCLUDE_DIRS}
-)
-
-target_link_libraries(detection_pose_estimation_node_legacy
-    zmq
-    ${OpenCV_LIBRARIES}
-)
-
-install(TARGETS
-  detection_pose_estimation_node_legacy
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 add_library(aruco_detector SHARED src/aruco_detector.cpp)
 ament_target_dependencies(aruco_detector
   tf2 rclcpp sensor_msgs robot_interfaces OpenCV)
 target_include_directories(aruco_detector PUBLIC include)
 install(TARGETS aruco_detector DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include)
+
+add_library(yolo_zmq_detector SHARED src/yolo_zmq_detector.cpp)
+ament_target_dependencies(yolo_zmq_detector
+  rclcpp sensor_msgs robot_interfaces OpenCV)
+target_link_libraries(yolo_zmq_detector zmq)
+target_include_directories(yolo_zmq_detector PUBLIC include)
+install(TARGETS yolo_zmq_detector DESTINATION lib)
+
+add_executable(perception_node src/perception_node.cpp)
+ament_target_dependencies(perception_node
+  rclcpp sensor_msgs cv_bridge robot_interfaces tf2_geometry_msgs)
+target_link_libraries(perception_node aruco_detector yolo_zmq_detector)
+install(TARGETS perception_node DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)

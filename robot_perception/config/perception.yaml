@@ -1,0 +1,6 @@
+perception_node:
+  ros__parameters:
+    default_backend: aruco
+    marker_length_m: 0.08
+    zmq_endpoint: "tcp://192.168.28.1:5555"
+    camera_optical_frame: camera_color_optical_frame
