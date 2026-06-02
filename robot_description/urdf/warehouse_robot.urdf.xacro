@@ -43,6 +43,20 @@
     <xacro:ur5_ros2_control_sim prefix="ur5_"/>
     <xacro:agv_ros2_control_sim prefix=""/>
 
+    <gazebo reference="camera_link">
+        <sensor type="camera" name="camera">
+            <update_rate>15.0</update_rate>
+            <camera>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+                <clip><near>0.05</near><far>10</far></clip>
+            </camera>
+            <plugin name="camera_driver" filename="libgazebo_ros_camera.so">
+                <frame_name>camera_color_optical_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
     <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
             <parameters>$(find robot_simulation)/config/warehouse_controllers.yaml</parameters>
