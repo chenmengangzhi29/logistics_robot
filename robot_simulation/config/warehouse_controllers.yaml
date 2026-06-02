@@ -28,6 +28,7 @@ ur5_arm_controller:
 
 diff_drive_controller:
   ros__parameters:
+    use_stamped_vel: false
     left_wheel_names: [left_wheel_joint]
     right_wheel_names: [right_wheel_joint]
     wheel_separation: 0.42

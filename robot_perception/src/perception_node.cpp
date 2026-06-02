@@ -49,7 +49,7 @@ public:
         info_opts.callback_group = info_cbg;
 
         img_sub_ = create_subscription<sensor_msgs::msg::Image>(
-            "/camera/color/image_raw", 10,
+            "/camera/image_raw", 10,
             std::bind(&PerceptionNode::onImage, this, _1), opts);
         info_sub_ = create_subscription<sensor_msgs::msg::CameraInfo>(
             "/camera/camera_info", 10,

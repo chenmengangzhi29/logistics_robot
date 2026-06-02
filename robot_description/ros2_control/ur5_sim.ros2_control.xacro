@@ -5,8 +5,9 @@
             <hardware>
                 <plugin>gazebo_ros2_control/GazeboSystem</plugin>
             </hardware>
-            <xacro:macro name="ur5_joint" params="name">
+            <xacro:macro name="ur5_joint" params="name init_pos:=0.0">
                 <joint name="${prefix}${name}">
+                    <param name="initial_position">${init_pos}</param>
                     <command_interface name="position"/>
                     <command_interface name="velocity"/>
                     <state_interface name="position"/>
@@ -14,12 +15,12 @@
                     <state_interface name="effort"/>
                 </joint>
             </xacro:macro>
-            <xacro:ur5_joint name="shoulder_pan_joint"/>
-            <xacro:ur5_joint name="shoulder_lift_joint"/>
-            <xacro:ur5_joint name="elbow_joint"/>
-            <xacro:ur5_joint name="wrist_1_joint"/>
-            <xacro:ur5_joint name="wrist_2_joint"/>
-            <xacro:ur5_joint name="wrist_3_joint"/>
+            <xacro:ur5_joint name="shoulder_pan_joint"  init_pos="0.0"/>
+            <xacro:ur5_joint name="shoulder_lift_joint" init_pos="-1.5708"/>
+            <xacro:ur5_joint name="elbow_joint"         init_pos="1.5708"/>
+            <xacro:ur5_joint name="wrist_1_joint"       init_pos="-1.5708"/>
+            <xacro:ur5_joint name="wrist_2_joint"       init_pos="-1.5708"/>
+            <xacro:ur5_joint name="wrist_3_joint"       init_pos="0.0"/>
         </ros2_control>
     </xacro:macro>
 </robot>

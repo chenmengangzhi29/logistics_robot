@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+    <model name="box_with_aruco_2">
+        <link name="link">
+            <inertial><mass>0.3</mass>
+                <inertia><ixx>5e-4</ixx><iyy>5e-4</iyy><izz>5e-4</izz>
+                        <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
+            <collision name="col"><geometry><box><size>0.1 0.1 0.1</size></box></geometry></collision>
+            <visual name="vis_body"><geometry><box><size>0.1 0.1 0.1</size></box></geometry>
+                <material><ambient>0.8 0.6 0.2 1</ambient></material></visual>
+            <visual name="vis_marker">
+                <pose>0 0 0.0501 0 0 0</pose>
+                <geometry><box><size>0.08 0.08 0.001</size></box></geometry>
+                <material><script>
+                    <uri>model://box_with_aruco_2/materials/scripts</uri>
+                    <uri>model://box_with_aruco_2/materials/textures</uri>
+                    <name>Aruco/Marker2</name>
+                </script></material>
+            </visual>
+        </link>
+    </model>
+</sdf>

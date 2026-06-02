@@ -43,6 +43,11 @@ ament_target_dependencies(perception_node
 target_link_libraries(perception_node aruco_detector yolo_zmq_detector)
 install(TARGETS perception_node DESTINATION lib/${PROJECT_NAME})
 
+add_executable(detection_marker_publisher src/detection_marker_publisher.cpp)
+ament_target_dependencies(detection_marker_publisher
+  rclcpp visualization_msgs robot_interfaces)
+install(TARGETS detection_marker_publisher DESTINATION lib/${PROJECT_NAME})
+
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
