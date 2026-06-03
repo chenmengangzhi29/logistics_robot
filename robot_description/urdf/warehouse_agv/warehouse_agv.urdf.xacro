@@ -96,11 +96,11 @@
 
         <gazebo reference="${prefix}left_wheel_link">
             <mu1>1.0</mu1><mu2>1.0</mu2>
-            <kp>1e7</kp><kd>1.0</kd>
+            <kp>1e6</kp><kd>10.0</kd>
         </gazebo>
         <gazebo reference="${prefix}right_wheel_link">
             <mu1>1.0</mu1><mu2>1.0</mu2>
-            <kp>1e7</kp><kd>1.0</kd>
+            <kp>1e6</kp><kd>10.0</kd>
         </gazebo>
         <gazebo reference="${prefix}front_caster_link">
             <mu1>0.0</mu1><mu2>0.0</mu2>
