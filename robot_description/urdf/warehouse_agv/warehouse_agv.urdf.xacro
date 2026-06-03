@@ -8,6 +8,7 @@
     <xacro:property name="wheel_radius" value="0.075"/>
     <xacro:property name="wheel_width" value="0.04"/>
     <xacro:property name="wheel_separation" value="0.42"/>
+    <xacro:property name="wheel_x_offset" value="-0.017"/>  <!-- shift drive axle under combined base+UR5 CoM to stop idle creep -->
 
     <xacro:macro name="box_inertia" params="m x y z">
         <inertia ixx="${m*(y*y+z*z)/12.0}" ixy="0" ixz="0"
@@ -69,7 +70,7 @@
             <joint name="${prefix}${side}_wheel_joint" type="continuous">
                 <parent link="${prefix}base_link"/>
                 <child link="${prefix}${side}_wheel_link"/>
-                <origin xyz="0 ${y_reflect * wheel_separation/2} 0" rpy="0 0 0"/>
+                <origin xyz="${wheel_x_offset} ${y_reflect * wheel_separation/2} 0" rpy="0 0 0"/>
                 <axis xyz="0 1 0"/>
             </joint>
         </xacro:macro>
@@ -102,11 +103,11 @@
             <kp>1e6</kp><kd>10.0</kd>
         </gazebo>
         <gazebo reference="${prefix}front_caster_link">
-            <mu1>0.2</mu1><mu2>0.2</mu2>
+            <mu1>0.0</mu1><mu2>0.0</mu2>
             <kp>1e6</kp><kd>10.0</kd>
         </gazebo>
         <gazebo reference="${prefix}back_caster_link">
-            <mu1>0.2</mu1><mu2>0.2</mu2>
+            <mu1>0.0</mu1><mu2>0.0</mu2>
             <kp>1e6</kp><kd>10.0</kd>
         </gazebo>
 
