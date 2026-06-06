@@ -62,4 +62,12 @@
             <parameters>$(find robot_simulation)/config/warehouse_controllers.yaml</parameters>
         </plugin>
     </gazebo>
+    <gazebo>
+        <plugin name="vacuum_gripper" filename="libgazebo_ros_vacuum_gripper.so">
+            <ros><namespace>/vacuum_gripper</namespace></ros>
+            <link_name>vacuum_base_link</link_name>
+            <fixed>base_link</fixed>
+            <max_distance>0.05</max_distance>
+        </plugin>
+    </gazebo>
 </robot> 
