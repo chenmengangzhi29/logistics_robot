@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 
 add_executable(camera_hal_sim_node camera/camera_hal_sim_node.cpp)
 ament_target_dependencies(camera_hal_sim_node rclcpp sensor_msgs)
@@ -17,6 +18,11 @@ install(TARGETS
   camera_hal_sim_node
   DESTINATION lib/${PROJECT_NAME}
 )
+
+add_executable(gripper_hal_sim_node gripper/gripper_hal_sim_node.cpp)
+ament_target_dependencies(gripper_hal_sim_node rclcpp std_srvs)
+
+install(TARGETS gripper_hal_sim_node DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
