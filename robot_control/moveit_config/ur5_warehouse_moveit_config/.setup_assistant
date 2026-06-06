@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: moveit_resources_panda_description
+    relative_path: urdf/warehouse_robot.urdf
+  srdf:
+    relative_path: config/warehouse_robot.srdf
+  package_settings:
+    author_name: xueqin
+    author_email: q935325906@gmail.com
+    generated_timestamp: 1780592085
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
