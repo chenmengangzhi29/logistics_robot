@@ -7,6 +7,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
+    capabilities = LaunchConfiguration("capabilities")
 
     moveit_config = (
     MoveItConfigsBuilder(
@@ -23,6 +24,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.to_dict(),
             {"use_sim_time": use_sim_time},
+            {"capabilities": capabilities},
         ],
     )
     
@@ -30,6 +32,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "use_sim_time",
             default_value="false",
+        ),
+        DeclareLaunchArgument(
+            "capabilities",
+            default_value="move_group/ExecuteTaskSolutionCapability",
         ),
         move_group_node,
     ])
