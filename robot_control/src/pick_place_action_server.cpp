@@ -101,13 +101,58 @@ private:
             return;
         }
 
-        // PLACE STAGES: TODO 
+        // MOVE to above place
+        auto place_above = goal->place_pose;
+        place_above.pose.position.z += 0.10;
+        fb->stage = PickAndPlace::Feedback::STAGE_MOVE;
+        fb->progress = 0.6;
+        gh->publish_feedback(fb);
+        if (!moveTo(place_above)){
+            result->success = false;
+            result->error_code = 5;
+            result->error_message = "move to place failed";
+            gh->abort(result);
+            return;
+        }
+
+        // PLACE descent
         fb->stage = PickAndPlace::Feedback::STAGE_PLACE;
+        fb->progress = 0.8;
+        gh->publish_feedback(fb);
+        if (!moveTo(goal->place_pose)){
+            result->success = false;
+            result->error_code = 6;
+            result->error_message = "place descent failed";
+            gh->abort(result);
+            return;
+        }
+
+        // Release
+        if (!setVacuum(false)){
+            result->success = false;
+            result->error_code = 7;
+            result->error_message = "vacuum off failed";
+            gh->abort(result);
+            return;
+        }
+
+        // Retreat & home
+        if (!moveTo(place_above)){
+            result->success = false;
+            result->error_code = 8;
+            result->error_message = "post-place retreat failed";
+            gh->abort(result);
+            return;
+        }
+
+        move_->setNamedTarget("ready");
+        move_->move();
+
         fb->progress = 1.0;
         gh->publish_feedback(fb);
         result->success = true;
         result->error_code = 0;
-        result->error_message = "pick complete; place stub";
+        result->error_message = "pick+place complete";
         gh->succeed(result);
     }
 
