@@ -64,5 +64,5 @@ def generate_launch_description():
         ),
         pick_place_server,
         pick_place_mtc_server,
-        rviz_node,
+        # rviz_node,
     ])
