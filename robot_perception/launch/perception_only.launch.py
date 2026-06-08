@@ -9,4 +9,6 @@ def generate_launch_description():
     return LaunchDescription([
         Node(package='robot_perception', executable='perception_node',
             parameters=[cfg], output='screen'),
+        Node(package='robot_perception', executable='detection_marker_publisher',
+            output='screen'),
     ])
