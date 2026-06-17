@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vacuum_gripper">
-    <xacro:macro name="vacuum_gripper" params="prefix parent">
+    <xacro:macro name="vacuum_gripper" params="prefix parent gazebo_link">
         <link name="${prefix}vacuum_base_link">
             <visual>
                 <origin xyz="0 0 0.025"/>
@@ -23,12 +23,52 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </joint>
 
-        <!-- TCP - contact surface of suction cup, used by MoveIt as end-effector frame -->
-        <link name="${prefix}vacuum_tcp"/>
+        <gazebo reference="${prefix}vacuum_mount_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+
+        <!-- TCP - contact surface of suction cup, used by MoveIt. Gazebo's URDF
+             conversion merges fixed child links, so the vacuum plugin binds to
+             the nearest preserved Gazebo link and uses max_distance to reach it. -->
+        <link name="${prefix}vacuum_tcp">
+            <visual>
+                <origin xyz="0 0 0"/>
+                <geometry><cylinder radius="0.026" length="0.004"/></geometry>
+                <material name="suction_tip_blue"><color rgba="0.1 0.25 0.9 0.7"/></material>
+            </visual>
+            <inertial>
+                <mass value="0.005"/>
+                <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" ixz="0" iyz="0"/>
+            </inertial>
+        </link>
         <joint name="${prefix}vacuum_tcp_joint" type="fixed">
             <parent link="${prefix}vacuum_base_link"/>
             <child link="${prefix}vacuum_tcp"/>
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
         </joint>
+
+        <gazebo reference="${prefix}vacuum_tcp_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+
+        <gazebo>
+            <plugin name="${prefix}vacuum_gripper" filename="libgazebo_ros_vacuum_gripper.so">
+                <ros>
+                    <namespace>/vacuum_gripper</namespace>
+                </ros>
+                <link_name>${gazebo_link}</link_name>
+                <!-- The plugin checks distance from the vacuum link origin to
+                     object link origins. A 0.10 m box with TCP clearance plus
+                     small AGV/Gazebo base drift needs more than the box half
+                     height alone. Keep this below the neighboring box distance. -->
+                <max_distance>0.18</max_distance>
+                <fixed>warehouse_robot</fixed>
+                <fixed>ground_plane</fixed>
+                <fixed>sun</fixed>
+                <fixed>aruco_platform</fixed>
+            </plugin>
+        </gazebo>
     </xacro:macro>
 </robot>

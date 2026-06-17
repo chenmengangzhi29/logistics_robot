@@ -8,6 +8,8 @@ from moveit_configs_utils import MoveItConfigsBuilder
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_mtc = LaunchConfiguration("use_mtc")
+    start_auto_pick = LaunchConfiguration("start_auto_pick")
+    surface_clearance_m = LaunchConfiguration("surface_clearance_m")
 
     moveit_config = (
         MoveItConfigsBuilder(
@@ -24,6 +26,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.to_dict(),
             {"use_sim_time": use_sim_time},
+            {"surface_clearance_m": surface_clearance_m},
         ],
         condition = UnlessCondition(use_mtc),
     )
@@ -53,6 +56,16 @@ def generate_launch_description():
         ],
     )
 
+    auto_pick_node = Node(
+        package="robot_decision",
+        executable="auto_pick_node",
+        output="screen",
+        parameters=[
+            {"use_sim_time": use_sim_time},
+        ],
+        condition=IfCondition(start_auto_pick),
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument(
             "use_sim_time",
@@ -62,7 +75,16 @@ def generate_launch_description():
             "use_mtc",
             default_value="false",
         ),
+        DeclareLaunchArgument(
+            "start_auto_pick",
+            default_value="false",
+        ),
+        DeclareLaunchArgument(
+            "surface_clearance_m",
+            default_value="0.005",
+        ),
         pick_place_server,
         pick_place_mtc_server,
+        auto_pick_node,
         # rviz_node,
     ])

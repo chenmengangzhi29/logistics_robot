@@ -2,8 +2,8 @@
 <sdf version="1.6">
     <model name="box_with_aruco_1">
         <link name="link">
-            <inertial><mass>0.3</mass>
-                <inertia><ixx>5e-4</ixx><iyy>5e-4</iyy><izz>5e-4</izz>
+            <inertial><mass>0.03</mass>
+                <inertia><ixx>5e-5</ixx><iyy>5e-5</iyy><izz>5e-5</izz>
                         <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
             <collision name="col"><geometry><box><size>0.1 0.1 0.1</size></box></geometry></collision>
             <visual name="vis_body"><geometry><box><size>0.1 0.1 0.1</size></box></geometry>

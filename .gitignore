@@ -74,8 +74,10 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# claude
+# agent
+.agents/
 .claude/
+.codex/
 
 # docs
 docs/superpowers
