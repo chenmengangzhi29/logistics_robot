@@ -14,8 +14,10 @@
     <!-- UR5 mounted on arm_mount_link of AGV. z-offset already in arm_mount_joint. -->
     <xacro:ur5_robot prefix="ur5_" parent="arm_mount_link"/>
 
-    <!-- Vacuum gripper attached to UR5 tool0 -->
-    <xacro:vacuum_gripper prefix="" parent="ur5_tool0"/>
+    <!-- Vacuum gripper physical link attached directly to the stable Gazebo wrist link.
+         ur5_tool0 has the same transform as ur5_wrist_3_link in this URDF and remains
+         available as the MoveIt planning frame. -->
+    <xacro:vacuum_gripper prefix="" parent="ur5_wrist_3_link" gazebo_link="vacuum_tcp"/>
 
     <!-- Camera (Eye-to-Hand) fixed on AGV body, looking forward+down -->
     <link name="camera_link">
@@ -60,14 +62,6 @@
     <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
             <parameters>$(find robot_simulation)/config/warehouse_controllers.yaml</parameters>
-        </plugin>
-    </gazebo>
-    <gazebo>
-        <plugin name="vacuum_gripper" filename="libgazebo_ros_vacuum_gripper.so">
-            <ros><namespace>/vacuum_gripper</namespace></ros>
-            <link_name>vacuum_base_link</link_name>
-            <fixed>base_link</fixed>
-            <max_distance>0.05</max_distance>
         </plugin>
     </gazebo>
 </robot> 

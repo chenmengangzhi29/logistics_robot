@@ -32,7 +32,7 @@ def generate_launch_description():
     spawn = Node(package='gazebo_ros', executable='spawn_entity.py',
                  arguments=['-entity', 'warehouse_robot',
                             '-topic', 'robot_description',
-                            '-x', '0', '-y', '0', '-z', '0.05'],
+                            '-x', '0', '-y', '0', '-z', '0'],
                  output='screen')
 
     spawn_jsb = Node(package='controller_manager', executable='spawner',
@@ -66,12 +66,22 @@ def generate_launch_description():
         output='screen'
     )
 
+    send_zero_cmd = ExecuteProcess(
+        cmd=['ros2', 'topic', 'pub', '--once',
+             '/diff_drive_controller/cmd_vel_unstamped',
+             'geometry_msgs/msg/Twist',
+             '{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}'],
+        output='screen'
+    )
+
     return LaunchDescription([
         gazebo, rsp, spawn,
         RegisterEventHandler(OnProcessExit(target_action=spawn,
-            on_exit=[spawn_jsb])),
-        RegisterEventHandler(OnProcessExit(target_action=spawn_jsb,
-            on_exit=[spawn_ur5, spawn_diff])),
+            on_exit=[spawn_jsb, spawn_diff])),
+        RegisterEventHandler(OnProcessExit(target_action=spawn_diff,
+            on_exit=[send_zero_cmd])),
+        RegisterEventHandler(OnProcessExit(target_action=send_zero_cmd,
+            on_exit=[spawn_ur5])),
         RegisterEventHandler(OnProcessExit(target_action=spawn_ur5,
             on_exit=[send_home])),
     ])
