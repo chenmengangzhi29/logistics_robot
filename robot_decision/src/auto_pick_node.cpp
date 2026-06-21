@@ -26,9 +26,9 @@ public:
                 tf_buf_(get_clock()), tf_listener_(tf_buf_) {
         declare_parameter<std::string>("base_frame", "base_link");
         declare_parameter<double>("min_pick_interval_s", 6.0);
-        declare_parameter<double>("place_x", 0.0);
-        declare_parameter<double>("place_y", -0.5);
-        declare_parameter<double>("place_z", 0.125);
+        // declare_parameter<double>("place_x", 0.0);
+        // declare_parameter<double>("place_y", -0.5);
+        // declare_parameter<double>("place_z", 0.125);
         declare_parameter<double>("pick_surface_clearance_m", -0.01);
 
         auto cbg = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
@@ -75,12 +75,17 @@ private:
         g.pick_pose.pose.orientation.z = 0.0;
         g.pick_pose.pose.orientation.w = 0.0; // tcp pointing straight down
         g.place_pose.header = base_pose.header;
-        g.place_pose.pose.position.x = get_parameter("place_x").as_double();
-        g.place_pose.pose.position.y = get_parameter("place_y").as_double();
-        g.place_pose.pose.position.z = get_parameter("place_z").as_double();
+        // g.place_pose.pose.position.x = get_parameter("place_x").as_double();
+        // g.place_pose.pose.position.y = get_parameter("place_y").as_double();
+        // g.place_pose.pose.position.z = get_parameter("place_z").as_double();
+        g.place_pose.pose.position.x = base_pose.pose.position.y;
+        g.place_pose.pose.position.y = -base_pose.pose.position.x;
+        g.place_pose.pose.position.z = base_pose.pose.position.z;
         g.place_pose.pose.orientation = g.pick_pose.pose.orientation;
 
-        RCLCPP_INFO(get_logger(), "pick_pose: position: x=%f,y=%f,z=%f", g.pick_pose.pose.position.x, g.pick_pose.pose.position.y, g.pick_pose.pose.position.z);
+        RCLCPP_INFO(get_logger(), "pick_pose: position: {x=%f,y=%f,z=%f}, place_pose: position: {x=%f,y=%f,z=%f}", 
+                    g.pick_pose.pose.position.x, g.pick_pose.pose.position.y, g.pick_pose.pose.position.z,
+                    g.place_pose.pose.position.x, g.place_pose.pose.position.y, g.place_pose.pose.position.z);
 
         last_pick_ = now;
         auto opts = rclcpp_action::Client<PickAndPlace>::SendGoalOptions();
