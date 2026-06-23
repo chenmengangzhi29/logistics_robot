@@ -1,0 +1,40 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    ur5_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+ur5_arm_controller:
+  ros__parameters:
+    joints:
+      - ur5_shoulder_pan_joint
+      - ur5_shoulder_lift_joint
+      - ur5_elbow_joint
+      - ur5_wrist_1_joint
+      - ur5_wrist_2_joint
+      - ur5_wrist_3_joint
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+
+diff_drive_controller:
+  ros__parameters:
+    use_stamped_vel: false
+    left_wheel_names: [left_wheel_joint]
+    right_wheel_names: [right_wheel_joint]
+    wheel_separation: 0.42
+    wheel_radius: 0.075
+    publish_rate: 50.0
+    base_frame_id: base_footprint
+    odom_frame_id: odom
+    enable_odom_tf: true
+    cmd_vel_timeout: 0.5

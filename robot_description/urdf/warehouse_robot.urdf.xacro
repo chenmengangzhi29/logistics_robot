@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="warehouse_robot">
+    <xacro:include filename="$(find robot_description)/urdf/warehouse_agv/warehouse_agv.urdf.xacro"/>
+    <xacro:include filename="$(find robot_description)/urdf/ur5/ur5.urdf.xacro"/>
+    <xacro:include filename="$(find robot_description)/urdf/grippers/vacuum_gripper.urdf.xacro"/>
+    <xacro:include filename="$(find robot_simulation)/gazebo/warehouse_robot.gazebo.xacro"/>
+    <xacro:include filename="$(find robot_description)/ros2_control/ur5_sim.ros2_control.xacro"/>
+    <xacro:include filename="$(find robot_description)/ros2_control/agv_sim.ros2_control.xacro"/>
+
+
+    <!-- Mobile base -->
+    <xacro:warehouse_agv_robot prefix=""/>
+
+    <!-- UR5 mounted on arm_mount_link of AGV. z-offset already in arm_mount_joint. -->
+    <xacro:ur5_robot prefix="ur5_" parent="arm_mount_link"/>
+
+    <!-- Vacuum gripper physical link attached directly to the stable Gazebo wrist link.
+         ur5_tool0 has the same transform as ur5_wrist_3_link in this URDF and remains
+         available as the MoveIt planning frame. -->
+    <xacro:vacuum_gripper prefix="" parent="ur5_wrist_3_link" gazebo_link="vacuum_tcp"/>
+
+    <!-- Camera (Eye-to-Hand) fixed on AGV body, looking forward+down -->
+    <link name="camera_link">
+        <visual>
+            <geometry><box size="0.04 0.10 0.03"/></geometry>
+            <material name="cam_blue"><color rgba="0.1 0.3 0.8 1"/></material>
+        </visual>
+        <inertial><mass value="0.05"/>
+            <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+    </link>
+    <joint name="camera_mount_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0.30 0 0.30" rpy="0 0.7854 0"/>    <!-- pitched 30 deg down -->
+    </joint>
+
+    <!-- Optical frame - REP-103 convention (x right, y down, z forward) -->
+    <link name="camera_color_optical_frame"/>
+    <joint name="camera_color_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_color_optical_frame"/>
+        <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+
+    <xacro:ur5_ros2_control_sim prefix="ur5_"/>
+    <xacro:agv_ros2_control_sim prefix=""/>
+
+    <gazebo reference="camera_link">
+        <sensor type="camera" name="camera">
+            <update_rate>15.0</update_rate>
+            <camera>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <image><width>1280</width><height>720</height><format>R8G8B8</format></image>
+                <clip><near>0.05</near><far>10</far></clip>
+            </camera>
+            <plugin name="camera_driver" filename="libgazebo_ros_camera.so">
+                <frame_name>camera_color_optical_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <parameters>$(find robot_simulation)/config/warehouse_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+</robot> 

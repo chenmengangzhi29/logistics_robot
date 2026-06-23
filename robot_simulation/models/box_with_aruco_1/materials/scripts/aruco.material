@@ -1,0 +1,4 @@
+material Aruco/Marker1 {
+    technique { pass {
+        texture_unit { texture aruco_1.png } } }
+}

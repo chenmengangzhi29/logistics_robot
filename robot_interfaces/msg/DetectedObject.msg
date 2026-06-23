@@ -1,0 +1,9 @@
+std_msgs/Header header
+int32 id
+string class_name
+geometry_msgs/Pose pose
+geometry_msgs/Vector3 dimensions
+float32 confidence
+uint8 SOURCE_ARUCO=0
+uint8 SOURCE_YOLO=1
+uint8 source

@@ -73,3 +73,11 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# agent
+.agents/
+.claude/
+.codex/
+
+# docs
+docs/superpowers

@@ -3,7 +3,7 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import LaunchConfigurationEquals
-from launch.launch_description_source import PythonLaunchDescriptionSource
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
@@ -12,7 +12,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     hal_pkg = FindPackageShare('robot_hardware_hal')
-    realsense_launch = FindPackageShare('realsense2_camera')
+    realsense_pkg = FindPackageShare('realsense2_camera')
 
     # 仿真相机HAL
     camera_hal_sim = IncludeLaunchDescription(
@@ -71,5 +71,4 @@ def generate_launch_description():
         real_camera_driver,
         camera_hal_real,
     ])
-
 
