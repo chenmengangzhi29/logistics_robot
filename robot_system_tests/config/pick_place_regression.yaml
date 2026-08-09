@@ -1,0 +1,32 @@
+pick_place_regression_gtest:
+  ros__parameters:
+    use_sim_time: true
+
+    rounds: 5
+    action_name: "/pick_and_place"
+
+    action_timeout_s: 60.0
+    startup_timeout_s: 120.0
+    reset_settle_s: 1.0
+    pose_tolerance_m: 0.5
+
+    frame_id: "base_link"
+    gripper_id: "vacuum"
+
+    box_names:
+      - "box_with_aruco_0"
+      - "box_with_aruco_1"
+      - "box_with_aruco_2"
+
+    box_initial_pose_x: [0.54, 0.54, 0.54]
+    box_initial_pose_y: [0.00, 0.10, -0.10]
+    box_initial_pose_z: [0.15, 0.15, 0.15]
+
+    box_place_pose_x: [0.00, 0.15, -0.15]
+    box_place_pose_y: [-0.54, -0.54, -0.54]
+    box_place_pose_z: [0.05, 0.05, 0.05]
+
+    orientation_x: [0.0, 0.0, 0.0]
+    orientation_y: [0.0, 0.0, 0.0]
+    orientation_z: [0.0, 0.0, 0.0]
+    orientation_w: [1.0, 1.0, 1.0]

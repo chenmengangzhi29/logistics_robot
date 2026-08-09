@@ -81,7 +81,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             "surface_clearance_m",
-            default_value="0.005",
+            default_value="0.03",
         ),
         pick_place_server,
         pick_place_mtc_server,

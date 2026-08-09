@@ -2,20 +2,65 @@
 <sdf version="1.6">
     <model name="box_with_aruco_0">
         <link name="link">
-            <inertial><mass>0.03</mass>
-                <inertia><ixx>5e-5</ixx><iyy>5e-5</iyy><izz>5e-5</izz>
-                        <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
-            <collision name="col"><geometry><box><size>0.1 0.1 0.1</size></box></geometry></collision>
-            <visual name="vis_body"><geometry><box><size>0.1 0.1 0.1</size></box></geometry>
-                <material><ambient>0.8 0.6 0.2 1</ambient></material></visual>
+            <inertial>
+                <mass>0.03</mass>
+                <inertia>
+                    <ixx>5e-5</ixx>
+                    <iyy>5e-5</iyy>
+                    <izz>5e-5</izz>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyz>0</iyz>
+                </inertia>
+            </inertial>
+
+            <collision name="col">
+                <geometry>
+                    <box>
+                        <size>0.1 0.1 0.1</size>
+                    </box>
+                </geometry>
+            </collision>
+
+            <visual name="vis_body">
+                <geometry>
+                    <box>
+                        <size>0.1 0.1 0.1</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.8 0.6 0.2 1</ambient>
+                    <diffuse>0.8 0.6 0.2 1</diffuse>
+                </material>
+            </visual>
+
+            <visual name="vis_marker_bg">
+                <pose>0 0 0.0510 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.095 0.095 0.001</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>1 1 1 1</ambient>
+                    <diffuse>1 1 1 1</diffuse>
+                </material>
+            </visual>
+
             <visual name="vis_marker">
-                <pose>0 0 0.0501 0 0 0</pose>
-                <geometry><box><size>0.08 0.08 0.001</size></box></geometry>
-                <material><script>
+                <pose>0 0 0.0520 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.08 0.08 0.001</size>
+                    </box>
+                </geometry>
+                <material>
+                    <script>
                     <uri>model://box_with_aruco_0/materials/scripts</uri>
                     <uri>model://box_with_aruco_0/materials/textures</uri>
                     <name>Aruco/Marker0</name>
-                </script></material>
+                    </script>
+                </material>
             </visual>
         </link>
     </model>

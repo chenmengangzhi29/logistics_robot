@@ -8,9 +8,10 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(robot_interfaces REQUIRED)
+find_package(std_srvs REQUIRED)
 
 add_executable(auto_pick_node src/auto_pick_node.cpp)
 ament_target_dependencies(auto_pick_node
-    rclcpp rclcpp_action geometry_msgs tf2_ros tf2_geometry_msgs robot_interfaces)
+    rclcpp rclcpp_action geometry_msgs tf2_ros tf2_geometry_msgs robot_interfaces std_srvs)
 install(TARGETS auto_pick_node DESTINATION lib/${PROJECT_NAME})
 ament_package()

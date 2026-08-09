@@ -81,3 +81,10 @@ Testing/
 
 # docs
 docs/superpowers
+
+# ide
+.vscode
+
+#python cache
+__pycache__/
+*.py[cod]
