@@ -1,7 +1,9 @@
 #include "robot_perception/aruco_detector.hpp"
 #include <opencv2/calib3d.hpp>
+#include <rclcpp/logger.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
+#include <rclcpp/rclcpp.hpp>
 
 namespace robot_perception {
 
@@ -14,12 +16,18 @@ std::vector<robot_interfaces::msg::DetectedObject>
 ArucoDetector::detect(const cv::Mat& rgb, const cv::Mat& /*depth*/,
                         const sensor_msgs::msg::CameraInfo& info) {
     std::vector<robot_interfaces::msg::DetectedObject> out;
-    if (rgb.empty()) return out;
+    if (rgb.empty()) 
+    {
+        return out;
+    }
 
     std::vector<int> ids;
     std::vector<std::vector<cv::Point2f>> corners;
     cv::aruco::detectMarkers(rgb, dict_, corners, ids, params_);
-    if (ids.empty()) return out;
+    if (ids.empty())
+    {
+        return out;
+    }
 
     cv::Mat K = (cv::Mat_<double>(3, 3) << 
         info.k[0], info.k[1], info.k[2],

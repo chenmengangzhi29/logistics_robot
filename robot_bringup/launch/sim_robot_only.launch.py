@@ -8,6 +8,7 @@ from launch.substitutions import Command, FindExecutable
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
+
 def generate_launch_description():
     desc_share = get_package_share_directory('robot_description')
     sim_share = get_package_share_directory('robot_simulation')
@@ -22,7 +23,10 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')),
-        launch_arguments={'world': world, 'verbose': 'true'}.items()
+        launch_arguments={
+            'world': world, 
+            'verbose': 'false',
+            }.items()
     )
 
     rsp = Node(package='robot_state_publisher', executable='robot_state_publisher',
